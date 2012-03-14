@@ -4,7 +4,7 @@ require File.expand_path('../lib/vfnetapis/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["OneAPI"]
   gem.email         = ["kevin.smith@vodafone.com"]
-  gem.description   = "Vodafone Network APIs"}
+  gem.description   = "Vodafone Network APIs"
   gem.summary       = "Network API helpers for reading a user's location, sending an SMS, charging an end user via Vodafone's RESTful OneAPI network APIs . Also facilitates the OAUTH flow"}
   gem.homepage      = ""
 
