@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["OneAPI"]
   gem.email         = ["kevin.smith@vodafone.com"]
   gem.description   = "Vodafone Network APIs"
-  gem.summary       = "Network API helpers for reading a user's location, sending an SMS, charging an end user via Vodafone's RESTful OneAPI network APIs . Also facilitates the OAUTH flow"}
+  gem.summary       = "Network API helpers for reading a user's location, sending an SMS, charging an end user via Vodafone's RESTful OneAPI network APIs . Also facilitates the OAUTH flow"
   gem.homepage      = ""
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
