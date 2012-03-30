@@ -4,8 +4,8 @@ require File.expand_path('../lib/vfnetapis/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["OneAPI"]
   gem.email         = ["kevin.smith@vodafone.com"]
-  gem.description   = "Vodafone Network APIs"
-  gem.summary       = "Network API helpers for reading a user's location, sending an SMS, charging an end user via Vodafone's RESTful OneAPI network APIs . Also facilitates the OAUTH flow"
+  gem.description   = "OAUTH with OneAPI calls against Vodafone's OneAPI endpoint."
+  gem.summary       = "Network API helpers for reading a user's location and brokering the OAUTH dance."
   gem.homepage      = ""
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
@@ -15,3 +15,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Vfnetapis::VERSION
 end
+
+
+
