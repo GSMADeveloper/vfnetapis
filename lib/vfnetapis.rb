@@ -3,6 +3,7 @@ require 'rest-client'
 require 'JSON'
 require 'launchy'
 require 'uri'
+require 'logger'
 
 module Vfnetapis
   class Location
@@ -19,7 +20,8 @@ module Vfnetapis
     attr_reader   :accuracy
     attr_reader   :timestamp 
     attr_reader   :response
-    @@loc_api="http://79.125.107.189/v2/location/queries/location"
+    @@loc_api="http://api.developer.vodafone.com/v2/location/queries/location"
+    # @@loc_api="http://79.125.107.189/v2/location/queries/location"
     @@auth_server = "http://79.125.107.189/2/oauth/authorize"
     @@acc_server = "http://176.34.213.154/2/oauth/access_token?client_id="
     
@@ -35,16 +37,20 @@ module Vfnetapis
      puts 'Auth Token is:' + @auth_token
      @access_token = get_access_token(@auth_token)
      puts 'Access Token is:' + @access_token
-
+     
      @response = RestClient.get @@loc_api, :authorization=> 'Oauth ' + @access_token, :params => {:address => URI.escape(address,':'), :requestedAccuracy => requested_accuracy}
-
      resJson = JSON.parse(@response)
-     @longitude = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["longitude"]
-     @latitude  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["latitude"]
-     @altitude  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["altitude"]
-     @accuracy  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["accuracy"]
-     @timestamp = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["timestamp"]
-     @address   = resJson["terminalLocationList"]["terminalLocation"]["address"]
+     
+     if resJson["terminalLocationList"]["terminalLocation"]["locationRetrievalStatus"] == "NotRetrieved"    
+		 @longitude = @latitude = @altitude = "Not Found"
+	 else
+         @longitude = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["longitude"]
+		 @latitude  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["latitude"]
+		 @altitude  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["altitude"]
+		 @accuracy  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["accuracy"]
+		 @timestamp = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["timestamp"]
+     end 
+		 @address = resJson["terminalLocationList"]["terminalLocation"]["address"]
     end
    
     def get_auth_token(redirectURI,scope) # => start consent flow to send code to redirectURI
