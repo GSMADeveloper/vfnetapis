@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["kevin.smith@vodafone.com"]
   gem.description   = "OAUTH with OneAPI calls against Vodafone's OneAPI endpoint."
   gem.summary       = "Network API helpers for reading a user's location and brokering the OAUTH dance."
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/OneAPI/vfnetapis"
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
