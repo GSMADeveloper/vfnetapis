@@ -44,8 +44,8 @@ module Vfnetapis
      if resJson["terminalLocationList"]["terminalLocation"]["locationRetrievalStatus"] == "NotRetrieved"    
 		 @longitude = @latitude = @altitude = "Not Found"
 	 else
-         @longitude = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["longitude"]
-		 @latitude  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["latitude"]
+         @longitude = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["longitude"][0..8]
+		 @latitude  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["latitude"][0..8]
 		 @altitude  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["altitude"]
 		 @accuracy  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["accuracy"]
 		 @timestamp = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["timestamp"]
