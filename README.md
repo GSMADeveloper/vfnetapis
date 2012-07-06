@@ -27,7 +27,7 @@ Or install it yourself as:
   For convenience the JSON is pre-parsed into several instance variables, see example below.
   
   For this version the callbackURI must points to a web service with specific routes,
-  to trap the authorization and access token flows. See https://github.com/OneAPI/NetworksAPIs/ruby/auth_trap.rb
+  to trap the authorization and access token flows. See auth_trap.rb
   for a Sinatra implementation.
   
   EXAMPLE:
