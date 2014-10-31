@@ -14,6 +14,9 @@ Gem::Specification.new do |gem|
   gem.name          = "vfnetapis"
   gem.require_paths = ["lib"]
   gem.version       = Vfnetapis::VERSION
+  gem.add_runtime_dependency 'rest-client'
+  gem.add_runtime_dependency 'json'
+  gem.add_runtime_dependency 'launchy'
 end
 
 
