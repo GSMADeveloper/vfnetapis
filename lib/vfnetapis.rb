@@ -1,6 +1,6 @@
 require "vfnetapis/version"
 require 'rest-client'
-require 'JSON'
+require 'json'
 require 'launchy'
 require 'uri'
 require 'logger'
@@ -15,33 +15,33 @@ module Vfnetapis
     attr_accessor :expires_in
     attr_reader   :longitude
     attr_reader   :latitude
-    attr_reader   :altitude 
+    attr_reader   :altitude
     attr_reader   :address
     attr_reader   :accuracy
-    attr_reader   :timestamp 
+    attr_reader   :timestamp
     attr_reader   :response
     @@loc_api="http://api.developer.vodafone.com/v2/location/queries/location"
     # @@loc_api="http://79.125.107.189/v2/location/queries/location"
     @@auth_server = "http://79.125.107.189/2/oauth/authorize"
     @@acc_server = "http://176.34.213.154/2/oauth/access_token?client_id="
-    
+
     def initialize(key,redirectURI) # => set up tokens ready for request
-     @scope = "GET-/location/queries/location" # "POST-/payment/acr:Authorization/transactions/amount"    
+     @scope = "GET-/location/queries/location" # "POST-/payment/acr:Authorization/transactions/amount"
      @key          = key
      @redirectURI  = redirectURI
      @requestId    = generateActivationCode()
     end
-    
+
     def location(address, requested_accuracy)
      @auth_token   = get_auth_token(@redirectURI,@scope)
      puts 'Auth Token is:' + @auth_token
      @access_token = get_access_token(@auth_token)
      puts 'Access Token is:' + @access_token
-     
+
      @response = RestClient.get @@loc_api, :authorization=> 'Oauth ' + @access_token, :params => {:address => URI.escape(address,':'), :requestedAccuracy => requested_accuracy}
      resJson = JSON.parse(@response)
-     
-     if resJson["terminalLocationList"]["terminalLocation"]["locationRetrievalStatus"] == "NotRetrieved"    
+
+     if resJson["terminalLocationList"]["terminalLocation"]["locationRetrievalStatus"] == "NotRetrieved"
 		 @longitude = @latitude = @altitude = "Not Found"
 	 else
          @longitude = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["longitude"][0..8]
@@ -49,10 +49,10 @@ module Vfnetapis
 		 @altitude  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["altitude"]
 		 @accuracy  = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["accuracy"]
 		 @timestamp = resJson["terminalLocationList"]["terminalLocation"]["currentLocation"]["timestamp"]
-     end 
+     end
 		 @address = resJson["terminalLocationList"]["terminalLocation"]["address"]
     end
-   
+
     def get_auth_token(redirectURI,scope) # => start consent flow to send code to redirectURI
      @uri = @@auth_server + '?client_id=' + @key + '&redirect_uri=' + URI.escape(redirectURI + '/' + @requestId, '/:&\?\.@') + '&scope=' + URI.escape(scope,'/:')
      Launchy.open(@uri) # => opens a browser to acquire consent then redirects to the callback
@@ -67,7 +67,7 @@ module Vfnetapis
 	   sleep 1
 	 end
 	 @auth_token
-    end  
+    end
 
   	def get_access_token(authorizationCode)
   	 uri = @@acc_server + @key
@@ -77,7 +77,7 @@ module Vfnetapis
   	 @expires_in = resJson["expires_in"]
      @accessToken = resJson["access_token"]
     end
-    
+
     def generateActivationCode(size= 6)
      charset = %w{ 2 3 4 6 7 9 A C D E F G H J K M N P Q R T V W X Y Z}
   	 (0...size).map{ charset.to_a[rand(charset.size)] }.join
